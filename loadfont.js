@@ -72,6 +72,7 @@ export const lazyLoadFont = (selector, options = {}) => {
 	}, options)
 
 	elements.forEach((fontElement) => {
+		fontElement.setAttribute('data-lf-status', '0')
 		observer.observe(fontElement)
 	})
 }
