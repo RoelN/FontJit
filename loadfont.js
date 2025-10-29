@@ -24,9 +24,9 @@ export const loadFont = (element) => {
 		return
 	}
 
-	const loadFont = new FontFace(`${name}`, `url("${url}")`)
+	const fontFace = new FontFace(`${name}`, `url("${url}")`)
 	element.setAttribute('data-lf-status', '1')
-	loadFont
+	fontFace
 		.load()
 		.then((loadedFont) => {
 			document.fonts.add(loadedFont)
