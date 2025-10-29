@@ -87,8 +87,8 @@ export const loadFont = (selector) => {
 		if (descriptorsData) {
 			try {
 				descriptors = JSON.parse(descriptorsData)
-			} catch (e) {
-				console.error(e)
+			} catch (error) {
+				console.error(error)
 			}
 		}
 
@@ -97,10 +97,17 @@ export const loadFont = (selector) => {
 		let promise = fontCache.get(cacheKey)
 		if (!promise) {
 			const fontFace = new FontFace(name, `url("${url}")`, descriptors)
-			promise = fontFace.load().then((loadedFont) => {
-				document.fonts.add(loadedFont)
-				return loadedFont
-			})
+			promise = fontFace
+				.load()
+				.then((loadedFont) => {
+					document.fonts.add(loadedFont)
+					return loadedFont
+				})
+				.catch((error) => {
+					fontCache.delete(cacheKey)
+					// Throw so the promise fails
+					throw error
+				})
 			fontCache.set(cacheKey, promise)
 		}
 
