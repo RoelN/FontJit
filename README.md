@@ -10,18 +10,20 @@ Simple example:
 ```html
 <script type="module">
     import { lazyLoadFont } from './loadfont.js';
-    lazyLoadFont('.boing'); /* Or a DOM element, or nodelist */
+    lazyLoadFont('.boing'); // Or a DOM element, or nodelist
 </script>
 ```
 
 2. Add data attributes with the URL and, optionally, the name:
+
 ```html
 <div class="boing" data-lf-url="boing.woff2" data-lf-name="Boing">
     Hello World
 </div>
 ```
 
-3. LoadFont only loads the font, so you have to actually apply it yourself, for example:
+3. `lazyLoadFont` (and `loadFont`) only take care of _loading_ the font, so you have to actually _apply_ it yourself, for example:
+
 ```html
 <style>
     .boing {
@@ -47,6 +49,7 @@ You can use these in CSS, for example to hide the text font until the font has b
     font-family: Boing;
 }
 
+/* Font has loaded, show the element */
 .boing[data-lf-status='2'] {
     opacity: 1;
 }
@@ -62,10 +65,12 @@ lazyLoadFont('.boing', {
 
 ```
 
-Or call loadFont directly to immediately download the font, regardless of whether the element is intersecting:
+Or call `loadFont` directly to immediately download the font, regardless of whether the element is intersecting:
 
 ```javascript
 // Load font for this element immediately
 loadFont('.boing');
 
 ```
+
+You can pass either a selector, a DOM element, or a Nodelist to `loadFont` and `lazyLoadFont`.
