@@ -9,6 +9,11 @@ export const LoadingState = {
 }
 
 /**
+ * Promise cache
+ */
+const fontCache = new Map()
+
+/**
  * Sanitizes font name for CSS Font Loading API (internal helper)
  * Removes spaces, plus signs, pipes, and dots
  *
@@ -77,12 +82,21 @@ export const loadFont = (selector) => {
 			}
 		}
 
-		const fontFace = new FontFace(name, `url("${url}")`, descriptors)
-		element.setAttribute('data-lf-status', LoadingState.LOADING)
-		fontFace
-			.load()
-			.then((loadedFont) => {
+		// Use cached promise if this font was already loaded
+		const cacheKey = `${name}::${url}::${JSON.stringify(descriptors)}`
+		let promise = fontCache.get(cacheKey)
+		if (!promise) {
+			const fontFace = new FontFace(name, `url("${url}")`, descriptors)
+			promise = fontFace.load().then((loadedFont) => {
 				document.fonts.add(loadedFont)
+				return loadedFont
+			})
+			fontCache.set(cacheKey, promise)
+		}
+
+		element.setAttribute('data-lf-status', LoadingState.LOADING)
+		promise
+			.then(() => {
 				element.setAttribute('data-lf-status', LoadingState.LOADED)
 			})
 			.catch(() => {
