@@ -41,13 +41,16 @@ const getElements = (selector) => {
  * Loads fonts for the specified elements using data attributes
  *
  * @param {string|Element|NodeList} selector - CSS selector string, DOM element, or NodeList
+ *
  * @returns {void}
  */
 export const loadFont = (selector) => {
 	const elements = getElements(selector)
 	elements.forEach((element) => {
 		const status = element.getAttribute('data-lf-status')
-		if (status === LoadingState.LOADING || status === LoadingState.LOADED) return
+		if (status === LoadingState.LOADING || status === LoadingState.LOADED) {
+			return
+		}
 
 		const url = element.getAttribute('data-lf-url')
 		const unsanitizedName = element.getAttribute('data-lf-name') || url
@@ -64,7 +67,17 @@ export const loadFont = (selector) => {
 			return
 		}
 
-		const fontFace = new FontFace(name, `url("${url}")`)
+		let descriptors = {}
+		const descriptorsData = element.getAttribute('data-lf-descriptors')
+		if (descriptorsData) {
+			try {
+				descriptors = JSON.parse(descriptorsData)
+			} catch (e) {
+				console.error(e)
+			}
+		}
+
+		const fontFace = new FontFace(name, `url("${url}")`, descriptors)
 		element.setAttribute('data-lf-status', LoadingState.LOADING)
 		fontFace
 			.load()
