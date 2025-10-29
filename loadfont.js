@@ -66,12 +66,6 @@ export const loadFont = (selector) => {
 			return
 		}
 
-		const fonts = [...document.fonts].map((font) => font.family)
-		if (fonts.includes(name)) {
-			element.setAttribute('data-lf-status', LoadingState.LOADED)
-			return
-		}
-
 		let descriptors = {}
 		const descriptorsData = element.getAttribute('data-lf-descriptors')
 		if (descriptorsData) {
