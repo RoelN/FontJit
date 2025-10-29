@@ -35,10 +35,10 @@ Simple example:
 While loading, the `data-lf-status` attribute will be added and updated. This lets you keep track of the four loading states:
 
 ```
-0 = idle
-1 = loading
-2 = loaded
-3 = error
+idle = not yet started
+loading = font is loading
+loaded = font successfully loaded
+error = loading failed
 ```
 
 You can use these in CSS, for example to hide the text font until the font has been loaded:
@@ -50,8 +50,19 @@ You can use these in CSS, for example to hide the text font until the font has b
 }
 
 /* Font has loaded, show the element */
-.boing[data-lf-status='2'] {
+.boing[data-lf-status='loaded'] {
     opacity: 1;
+}
+```
+
+You can use the `LoadingState` constants in JavaScript:
+
+```javascript
+import { lazyLoadFont, LoadingState } from './loadfont.js';
+
+const element = document.querySelector('.boing');
+if (element.getAttribute('data-lf-status') === LoadingState.LOADED) {
+    // Do something with the loaded font!
 }
 ```
 

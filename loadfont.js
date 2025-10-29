@@ -1,4 +1,14 @@
 /**
+ * Loading states
+ */
+export const LoadingState = {
+	IDLE: 'idle',
+	LOADING: 'loading',
+	LOADED: 'loaded',
+	ERROR: 'error',
+}
+
+/**
  * Sanitizes font name for CSS Font Loading API (internal helper)
  * Removes spaces, plus signs, pipes, and dots
  *
@@ -37,33 +47,33 @@ export const loadFont = (selector) => {
 	const elements = getElements(selector)
 	elements.forEach((element) => {
 		const status = element.getAttribute('data-lf-status')
-		if (status === '1' || status === '2') return
+		if (status === LoadingState.LOADING || status === LoadingState.LOADED) return
 
 		const url = element.getAttribute('data-lf-url')
 		const unsanitizedName = element.getAttribute('data-lf-name') || url
 		const name = sanitizeFontName(unsanitizedName)
 
 		if (!url) {
-			element.setAttribute('data-lf-status', '3')
+			element.setAttribute('data-lf-status', LoadingState.ERROR)
 			return
 		}
 
 		const fonts = [...document.fonts].map((font) => font.family)
 		if (fonts.includes(name)) {
-			element.setAttribute('data-lf-status', '2')
+			element.setAttribute('data-lf-status', LoadingState.LOADED)
 			return
 		}
 
 		const fontFace = new FontFace(name, `url("${url}")`)
-		element.setAttribute('data-lf-status', '1')
+		element.setAttribute('data-lf-status', LoadingState.LOADING)
 		fontFace
 			.load()
 			.then((loadedFont) => {
 				document.fonts.add(loadedFont)
-				element.setAttribute('data-lf-status', '2')
+				element.setAttribute('data-lf-status', LoadingState.LOADED)
 			})
 			.catch(() => {
-				element.setAttribute('data-lf-status', '3')
+				element.setAttribute('data-lf-status', LoadingState.ERROR)
 			})
 	})
 }
@@ -88,7 +98,7 @@ export const lazyLoadFont = (selector, options = {}) => {
 	}, options)
 
 	elements.forEach((fontElement) => {
-		fontElement.setAttribute('data-lf-status', '0')
+		fontElement.setAttribute('data-lf-status', LoadingState.IDLE)
 		observer.observe(fontElement)
 	})
 }
