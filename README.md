@@ -13,7 +13,7 @@ Simple example:
 </script>
 ```
 
-2. Add data attributes with the URL and, optionally, the name:
+2. Add data attributes with the URL and name:
 
 ```html
 <div class="boing" data-loadfont-url="boing.woff2" data-loadfont-name="Boing">

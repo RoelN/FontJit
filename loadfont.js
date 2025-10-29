@@ -74,13 +74,14 @@ export const loadFont = (selector) => {
 		}
 
 		const url = element.getAttribute('data-loadfont-url')
-		const unsanitizedName = element.getAttribute('data-loadfont-name') || url
-		const name = sanitizeFontName(unsanitizedName)
+		const unsanitizedName = element.getAttribute('data-loadfont-name')
 
-		if (!url) {
+		if (!url || !unsanitizedName) {
 			element.setAttribute('data-loadfont-status', LoadingState.ERROR)
 			return
 		}
+
+		const name = sanitizeFontName(unsanitizedName)
 
 		let descriptors = {}
 		const descriptorsData = element.getAttribute('data-loadfont-descriptors')
