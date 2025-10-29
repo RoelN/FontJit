@@ -9,7 +9,7 @@
  */
 export const loadFont = (element) => {
 	const status = element.getAttribute('data-lf-status')
-	if (status === '2') return
+	if (status === '1' || status === '2') return
 
 	const url = element.getAttribute('data-lf-url')
 	const name = element.getAttribute('data-lf-name') || url
