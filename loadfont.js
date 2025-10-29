@@ -1,41 +1,55 @@
 /**
- * Loads a font for the specified DOM element using data attributes
+ * Converts selector input to an array of elements (internal helper)
  *
- * @param {Element} item - DOM element with font data attributes:
- *        data-lf-url: URL to the font file
- *        data-lf-name: (optional) Font family name, defaults to URL if not provided
- *        data-lf-status: Status indicator (0=idle, 1=loading, 2=loaded, 3=error)
+ * @param {string|Element|NodeList} selector - CSS selector string, DOM element, or NodeList
+ * @returns {Array|NodeList} Array of elements
+ */
+const getElements = (selector) => {
+	return typeof selector === 'string'
+		? document.querySelectorAll(selector)
+		: selector instanceof Element
+		? [selector]
+		: selector
+}
+
+/**
+ * Loads fonts for the specified elements using data attributes
+ *
+ * @param {string|Element|NodeList} selector - CSS selector string, DOM element, or NodeList
  * @returns {void}
  */
-export const loadFont = (element) => {
-	const status = element.getAttribute('data-lf-status')
-	if (status === '1' || status === '2') return
+export const loadFont = (selector) => {
+	const elements = getElements(selector)
+	elements.forEach((element) => {
+		const status = element.getAttribute('data-lf-status')
+		if (status === '1' || status === '2') return
 
-	const url = element.getAttribute('data-lf-url')
-	const name = element.getAttribute('data-lf-name') || url
+		const url = element.getAttribute('data-lf-url')
+		const name = element.getAttribute('data-lf-name') || url
 
-	const fonts = [...document.fonts].map((font) => font.family)
-	if (fonts.includes(name)) {
-		element.setAttribute('data-lf-status', '2')
-		return
-	}
-
-	if (!url) {
-		element.setAttribute('data-lf-status', '3')
-		return
-	}
-
-	const fontFace = new FontFace(name, `url("${url}")`)
-	element.setAttribute('data-lf-status', '1')
-	fontFace
-		.load()
-		.then((loadedFont) => {
-			document.fonts.add(loadedFont)
-			element.setAttribute('data-lf-status', '2')
-		})
-		.catch(() => {
+		if (!url) {
 			element.setAttribute('data-lf-status', '3')
-		})
+			return
+		}
+
+		const fonts = [...document.fonts].map((font) => font.family)
+		if (fonts.includes(name)) {
+			element.setAttribute('data-lf-status', '2')
+			return
+		}
+
+		const fontFace = new FontFace(name, `url("${url}")`)
+		element.setAttribute('data-lf-status', '1')
+		fontFace
+			.load()
+			.then((loadedFont) => {
+				document.fonts.add(loadedFont)
+				element.setAttribute('data-lf-status', '2')
+			})
+			.catch(() => {
+				element.setAttribute('data-lf-status', '3')
+			})
+	})
 }
 
 /**
@@ -46,12 +60,7 @@ export const loadFont = (element) => {
  * @returns {void}
  */
 export const lazyLoadFont = (selector, options = {}) => {
-	const elements =
-		typeof selector === 'string'
-			? document.querySelectorAll(selector)
-			: selector instanceof Element
-			? [selector]
-			: selector
+	const elements = getElements(selector)
 
 	const observer = new IntersectionObserver((entries) => {
 		entries.forEach((entry) => {
