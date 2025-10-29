@@ -21,6 +21,7 @@ export const loadFont = (element) => {
 	}
 
 	if (!url) {
+		element.setAttribute('data-lf-status', '3')
 		return
 	}
 
