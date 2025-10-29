@@ -32,9 +32,8 @@ export const loadFont = (element) => {
 			document.fonts.add(loadedFont)
 			element.setAttribute('data-lf-status', '2')
 		})
-		.catch((e) => {
+		.catch(() => {
 			element.setAttribute('data-lf-status', '3')
-			throw e
 		})
 }
 
