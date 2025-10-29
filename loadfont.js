@@ -1,4 +1,19 @@
 /**
+ * Sanitizes font name for CSS Font Loading API (internal helper)
+ * Removes spaces, plus signs, pipes, and dots
+ *
+ * More info:
+ * https://typo.social/@pixelambacht/110615435477645570
+ * https://bugzilla.mozilla.org/show_bug.cgi?id=1813578
+ *
+ * @param {string} name - Font name to sanitize
+ * @returns {string} Sanitized font name
+ */
+const sanitizeFontName = (name) => {
+	return name.replace(/[\s+|.]/g, '_').trim()
+}
+
+/**
  * Converts selector input to an array of elements (internal helper)
  *
  * @param {string|Element|NodeList} selector - CSS selector string, DOM element, or NodeList
@@ -25,7 +40,8 @@ export const loadFont = (selector) => {
 		if (status === '1' || status === '2') return
 
 		const url = element.getAttribute('data-lf-url')
-		const name = element.getAttribute('data-lf-name') || url
+		const unsanitizedName = element.getAttribute('data-lf-name') || url
+		const name = sanitizeFontName(unsanitizedName)
 
 		if (!url) {
 			element.setAttribute('data-lf-status', '3')
