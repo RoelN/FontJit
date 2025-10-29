@@ -5,7 +5,7 @@ Boring name, exciting functionality! Because it loads a font when it enters the 
 Simple example:
 
 
-1. Set up lazy loading for all `div` elements:
+1. Set up lazy loading for all elements with the class `boing`:
 
 ```html
 <script type="module">
@@ -84,4 +84,4 @@ loadFont('.boing');
 
 ```
 
-You can pass either a selector, a DOM element, or a Nodelist to `loadFont` and `lazyLoadFont`.
+You can pass either a string, a DOM element, or a Nodelist to `loadFont` and `lazyLoadFont`.
