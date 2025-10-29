@@ -16,7 +16,7 @@ Simple example:
 2. Add data attributes with the URL and, optionally, the name:
 
 ```html
-<div class="boing" data-lf-url="boing.woff2" data-lf-name="Boing">
+<div class="boing" data-loadfont-url="boing.woff2" data-loadfont-name="Boing">
 	Hello World
 </div>
 ```
@@ -31,7 +31,7 @@ Simple example:
 </style>
 ```
 
-While loading, the `data-lf-status` attribute will be added and updated. This lets you keep track of the four loading states:
+While loading, the `data-loadfont-status` attribute will be added and updated. This lets you keep track of the four loading states:
 
 ```
 idle = not yet started
@@ -40,16 +40,16 @@ loaded = font successfully loaded
 error = loading failed
 ```
 
-You can use these in CSS, for example to hide the text font until the font has been loaded:
+You can use these in CSS, for example to hide the text until the font has been loaded:
 
 ```css
 .boing {
-	opacity: 0;
 	font-family: Boing;
+	opacity: 0;
 }
 
 /* Font has loaded, show the element */
-.boing[data-lf-status='loaded'] {
+.boing[data-loadfont-status='loaded'] {
 	opacity: 1;
 }
 ```
@@ -60,7 +60,7 @@ You can use the `LoadingState` constants in JavaScript:
 import { lazyLoadFont, LoadingState } from './loadfont.js'
 
 const element = document.querySelector('.boing')
-if (element.getAttribute('data-lf-status') === LoadingState.LOADED) {
+if (element.getAttribute('data-loadfont-status') === LoadingState.LOADED) {
 	// Do something with the loaded font!
 }
 ```
@@ -85,14 +85,14 @@ You can pass either a string, a DOM element, or a Nodelist to `loadFont` and `la
 
 ## Font Descriptors
 
-You can pass optional [FontFace descriptors](https://developer.mozilla.org/en-US/docs/Web/API/FontFace/FontFace#descriptors) using the `data-lf-descriptors` attribute with a JSON string:
+You can pass optional [FontFace descriptors](https://developer.mozilla.org/en-US/docs/Web/API/FontFace/FontFace#descriptors) using the `data-loadfont-descriptors` attribute with a JSON string:
 
 ```html
 <div
 	class="boing"
-	data-lf-url="boing.woff2"
-	data-lf-name="Boing"
-	data-lf-descriptors='{"weight":"100 900","stretch":"75% 125%"}'
+	data-loadfont-url="boing.woff2"
+	data-loadfont-name="Boing"
+	data-loadfont-descriptors='{"weight":"100 900","stretch":"75% 125%"}'
 >
 	Hello World
 </div>

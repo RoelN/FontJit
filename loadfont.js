@@ -68,22 +68,22 @@ const getElements = (selector) => {
 export const loadFont = (selector) => {
 	const elements = getElements(selector)
 	elements.forEach((element) => {
-		const status = element.getAttribute('data-lf-status')
+		const status = element.getAttribute('data-loadfont-status')
 		if (status === LoadingState.LOADING || status === LoadingState.LOADED) {
 			return
 		}
 
-		const url = element.getAttribute('data-lf-url')
-		const unsanitizedName = element.getAttribute('data-lf-name') || url
+		const url = element.getAttribute('data-loadfont-url')
+		const unsanitizedName = element.getAttribute('data-loadfont-name') || url
 		const name = sanitizeFontName(unsanitizedName)
 
 		if (!url) {
-			element.setAttribute('data-lf-status', LoadingState.ERROR)
+			element.setAttribute('data-loadfont-status', LoadingState.ERROR)
 			return
 		}
 
 		let descriptors = {}
-		const descriptorsData = element.getAttribute('data-lf-descriptors')
+		const descriptorsData = element.getAttribute('data-loadfont-descriptors')
 		if (descriptorsData) {
 			try {
 				descriptors = JSON.parse(descriptorsData)
@@ -111,13 +111,13 @@ export const loadFont = (selector) => {
 			fontCache.set(cacheKey, promise)
 		}
 
-		element.setAttribute('data-lf-status', LoadingState.LOADING)
+		element.setAttribute('data-loadfont-status', LoadingState.LOADING)
 		promise
 			.then(() => {
-				element.setAttribute('data-lf-status', LoadingState.LOADED)
+				element.setAttribute('data-loadfont-status', LoadingState.LOADED)
 			})
 			.catch(() => {
-				element.setAttribute('data-lf-status', LoadingState.ERROR)
+				element.setAttribute('data-loadfont-status', LoadingState.ERROR)
 			})
 	})
 }
@@ -142,7 +142,7 @@ export const lazyLoadFont = (selector, options = {}) => {
 	}, options)
 
 	elements.forEach((fontElement) => {
-		fontElement.setAttribute('data-lf-status', LoadingState.IDLE)
+		fontElement.setAttribute('data-loadfont-status', LoadingState.IDLE)
 		observer.observe(fontElement)
 	})
 }
