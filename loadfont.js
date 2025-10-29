@@ -29,6 +29,22 @@ const sanitizeFontName = (name) => {
 }
 
 /**
+ * Creates a unique cache key
+ *
+ * @param {string} name - Font name
+ * @param {string} url - Font URL
+ * @param {Object} descriptors - FontFace descriptors
+ * @returns {string} Normalized cache key
+ */
+const createCacheKey = (name, url, descriptors) => {
+	// Sort the descriptors so they're always tha same order
+	const sortedEntries = Object.entries(descriptors).sort(([a], [b]) =>
+		a.localeCompare(b)
+	)
+	return `${name}::${url}::${JSON.stringify(sortedEntries)}`
+}
+
+/**
  * Converts selector input to an array of elements (internal helper)
  *
  * @param {string|Element|NodeList} selector - CSS selector string, DOM element, or NodeList
@@ -77,7 +93,7 @@ export const loadFont = (selector) => {
 		}
 
 		// Use cached promise if this font was already loaded
-		const cacheKey = `${name}::${url}::${JSON.stringify(descriptors)}`
+		const cacheKey = createCacheKey(name, url, descriptors)
 		let promise = fontCache.get(cacheKey)
 		if (!promise) {
 			const fontFace = new FontFace(name, `url("${url}")`, descriptors)
