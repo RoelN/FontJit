@@ -22,7 +22,9 @@ Load FontJit, and call it. By default it'll automatically find all FontJit eleme
 Add data attributes with the font URL and font name to the element. Make sure you sanitize the font name to avoid icky browser bugs. Remove spaces, quotes, plus signs etc. Read more about this issue [in this Mastodon post](https://typo.social/@pixelambacht/110615435477645570).
 
 ```html
-<div data-fontjit-url="boing.woff2" data-fontjit-name="Boing">Hello World</div>
+<div class="boing" data-fontjit-url="boing.woff2" data-fontjit-name="Boing">
+	This is the Boing font!
+</div>
 ```
 
 ### 3. Apply the font via CSS
@@ -31,7 +33,7 @@ The font will now be loaded when this `div` enters the viewport! Remember, `font
 
 ```html
 <style>
-	div {
+	.boing {
 		font-family: Boing;
 	}
 </style>
