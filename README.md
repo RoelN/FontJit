@@ -1,6 +1,6 @@
 # FontJit
 
-A little helper for just-in-time font loading! Load fonts when they _enter_ the viewport, when they _almost enter_ the viewport, or immediately.
+A little helper for just-in-time font loading! Load fonts when they _enter the viewport_, when they _almost enter the viewport_, or _immediately_.
 
 ## Quick Start
 
