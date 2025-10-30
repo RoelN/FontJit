@@ -1,6 +1,6 @@
 # FontJit
 
-A little helper for just-in-time font loading! Load fonts when they _enter the viewport_, when they _almost enter the viewport_, or _immediately_.
+A little helper for just-in-time font loading! Load fonts when they _enter the viewport_, or when they _almost enter the viewport_, or _immediately_.
 
 It's tiny, just 634 bytes minified and Brotli zipped!
 
@@ -8,7 +8,7 @@ It's tiny, just 634 bytes minified and Brotli zipped!
 
 ### 1. Set up FontJit in JavaScript
 
-Load FontJit, and call it. By default it'll automatically find all FontJit elements on the page, but you can also pass a CSS selector string, a DOM element, or a Nodelist to target specific elements. By default fonts will be loaded when they're _in_ the viewport on pageload, or when they _enter_ the viewport when the user scrolls.
+Load FontJit, and call it. By default it'll automatically find all FontJit elements on the page, but you can also pass a CSS selector string, a DOM element, or a Nodelist to target specific elements. By default fonts will be loaded when they're _in_ the viewport on pageload, and when they _enter_ the viewport when the user scrolls.
 
 ```html
 <script type="module">
@@ -19,7 +19,7 @@ Load FontJit, and call it. By default it'll automatically find all FontJit eleme
 
 ### 2. Prepare your HTML elements
 
-Add data attributes with the font URL and font name to the element. Make sure you sanitize the font name to avoid icky browser bugs. Remove spaces, quotes, plus signs etc. Read more about this issue [in this Mastodon post](https://typo.social/@pixelambacht/110615435477645570).
+Add data attributes with the font URL and font name to the element.
 
 ```html
 <div class="boing" data-fontjit-url="boing.woff2" data-fontjit-name="Boing">
@@ -27,7 +27,9 @@ Add data attributes with the font URL and font name to the element. Make sure yo
 </div>
 ```
 
-### 3. Apply the font via CSS
+ℹ️ Make sure you sanitize the font name to avoid icky browser bugs. Remove spaces, quotes, plus signs etc. Read more about this issue [in this Mastodon post](https://typo.social/@pixelambacht/110615435477645570).
+
+### 3. Apply the font
 
 The font will now be loaded when this element enters the viewport. Remember, `fontJit` only takes care of _loading_ the font—you'll have to actually _apply_ it yourself.
 
@@ -66,9 +68,10 @@ loaded = font successfully loaded
 error = loading failed
 ```
 
-You can use these in CSS, for example to hide the text until the font has been loaded:
+You can use these in CSS, for example to hide the text until the font has been loaded, or show an error when the font fails to load.
 
 ```css
+/* Apply the font and hide it until it has loaded */
 .boing {
 	font-family: Boing;
 	opacity: 0;
