@@ -6,7 +6,9 @@ It's tiny, just 634 bytes minified and Brotli zipped!
 
 ## Quick Start
 
-1. Set up FontJit for the elements you'll apply the font to. By default fonts will be loaded when they're _in_ the viewport on pageload, or when they _enter_ the viewport when the user scrolls.
+### Set up FontJit in JavaScript
+
+Set up FontJit for the elements you'll apply the font to. You can pass either a CSS selector string like in the example, a DOM element, or a Nodelist. Or you can just omit a selector altogether (`fontJit()`) and FontJit will automatically find _all_ FontJit elements on the page. By default fonts will be loaded when they're _in_ the viewport on pageload, or when they _enter_ the viewport when the user scrolls.
 
 ```html
 <script type="module">
@@ -15,9 +17,9 @@ It's tiny, just 634 bytes minified and Brotli zipped!
 </script>
 ```
 
-You can pass either a CSS selector string like in the example, a DOM element, or a Nodelist. Or you can just omit a selector altogether (`fontJit()`) and FontJit will automatically find _all_ FontJit elements on the page!
+### Prepare your HTML elements
 
-2. Add data attributes with the font URL and font name to the element.
+Add data attributes with the font URL and font name to the element. Make sure you sanitize the font name to avoid icky browser bugs. Remove spaces, quotes, plus signs etc. Read more about this issue [in this Mastodon post](https://typo.social/@pixelambacht/110615435477645570).
 
 ```html
 <div class="boing" data-fontjit-url="boing.woff2" data-fontjit-name="Boing">
@@ -25,9 +27,9 @@ You can pass either a CSS selector string like in the example, a DOM element, or
 </div>
 ```
 
-Make sure you sanitize the font name to avoid icky browser bugs. Remove spaces, quotes, plus signs etc. Read more about this issue [in this Mastodon post](https://typo.social/@pixelambacht/110615435477645570).
+### Apply the font via CSS
 
-3. The font will now be loaded when this `div` enters the viewport! Remember, `fontJit` only takes care of _loading_ the font. You'll have to actually _apply_ it yourself.
+The font will now be loaded when this `div` enters the viewport! Remember, `fontJit` only takes care of _loading_ the font. You'll have to actually _apply_ it yourself.
 
 ```html
 <style>
@@ -68,7 +70,7 @@ You can use these in CSS, for example to hide the text until the font has been l
 }
 ```
 
-You can use the `LoadingState` constants in JavaScript:
+You can also use the `LoadingState` constants in JavaScript:
 
 ```javascript
 import { fontJit, LoadingState } from './fontjit.js'
