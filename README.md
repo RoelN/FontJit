@@ -13,9 +13,9 @@ A little helper for just-in-time font loading! Loads fonts can be loaded when th
 </script>
 ```
 
-You can pass either a CSS selector string, a DOM element, or a Nodelist to fontJit.
+You can pass either a CSS selector string, a DOM element, or a Nodelist to `fontJit`.
 
-2. Add data attributes with the font URL and font name:
+2. Add data attributes with the font URL and font name to the element.
 
 ```html
 <div class="boing" data-fontjit-url="boing.woff2" data-fontjit-name="Boing">
@@ -23,7 +23,7 @@ You can pass either a CSS selector string, a DOM element, or a Nodelist to fontJ
 </div>
 ```
 
-3. `fontJit` only takes care of _loading_ the font, so you have to actually _apply_ it yourself:
+3. The font will now be loaded when this `div` enters the viewport, but `fontJit` only takes care of _loading_ the font. You'll have to actually _apply_ it yourself.
 
 ```html
 <style>
