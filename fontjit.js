@@ -14,7 +14,7 @@ export const LoadingState = {
 const fontCache = new Map()
 
 /**
- * Sanitizes font name for CSS Font Loading API (internal helper)
+ * Sanitizes font name for CSS Font Loading API
  * Removes spaces, plus signs, pipes, and dots
  *
  * More info:
@@ -45,7 +45,7 @@ const createCacheKey = (name, url, descriptors) => {
 }
 
 /**
- * Converts selector input to an array of elements (internal helper)
+ * Converts selector input to an array of elements
  *
  * @param {string|Element|NodeList} selector - CSS selector string, DOM element, or NodeList
  * @returns {Array|NodeList} Array of elements
@@ -62,10 +62,9 @@ const getElements = (selector) => {
  * Loads fonts for the specified elements using data attributes
  *
  * @param {string|Element|NodeList} selector - CSS selector string, DOM element, or NodeList
- *
  * @returns {void}
  */
-export const loadFont = (selector) => {
+const loadFont = (selector) => {
 	const elements = getElements(selector)
 	elements.forEach((element) => {
 		const status = element.getAttribute('data-fontjit-status')
@@ -124,13 +123,27 @@ export const loadFont = (selector) => {
 }
 
 /**
- * Lazily loads fonts when elements enter the viewport
+ * Just-in-time font loading
+ * Loads fonts lazily when they enter the viewport (default), when they almost
+ * enter the viewport, or immediately
  *
  * @param {string|Element|NodeList} selector - CSS selector string, DOM element, or NodeList
- * @param {Object} [options] - IntersectionObserver options
+ * @param {Object} [options] - Options for font loading
+ * @param {boolean} [options.immediate=false] - Load fonts immediately instead of lazily
+ * @param {string} [options.rootMargin] - IntersectionObserver rootMargin (lazy mode only)
+ * @param {number} [options.threshold] - IntersectionObserver threshold (lazy mode only)
  * @returns {void}
  */
-export const lazyLoadFont = (selector, options = {}) => {
+export const fontJit = (selector, options = {}) => {
+	const { immediate = false, ...observerOptions } = options
+
+	// Immediate loading
+	if (immediate) {
+		loadFont(selector)
+		return
+	}
+
+	// Lazy loading (default)
 	const elements = getElements(selector)
 
 	const observer = new IntersectionObserver((entries) => {
@@ -140,7 +153,7 @@ export const lazyLoadFont = (selector, options = {}) => {
 				observer.unobserve(entry.target)
 			}
 		})
-	}, options)
+	}, observerOptions)
 
 	elements.forEach((fontElement) => {
 		fontElement.setAttribute('data-fontjit-status', LoadingState.IDLE)
