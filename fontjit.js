@@ -14,21 +14,6 @@ export const LoadingState = {
 const fontCache = new Map()
 
 /**
- * Sanitizes font name for CSS Font Loading API
- * Removes spaces, plus signs, pipes, and dots
- *
- * More info:
- * https://typo.social/@pixelambacht/110615435477645570
- * https://bugzilla.mozilla.org/show_bug.cgi?id=1813578
- *
- * @param {string} name - Font name to sanitize
- * @returns {string} Sanitized font name
- */
-const sanitizeFontName = (name) => {
-	return name.replace(/[\s+|.]/g, '_').trim()
-}
-
-/**
  * Creates a unique cache key
  *
  * @param {string} name - Font name
@@ -73,14 +58,12 @@ const loadFont = (selector) => {
 		}
 
 		const url = element.getAttribute('data-fontjit-url')
-		const unsanitizedName = element.getAttribute('data-fontjit-name')
+		const name = element.getAttribute('data-fontjit-name')
 
-		if (!url || !unsanitizedName) {
+		if (!url || !name) {
 			element.setAttribute('data-fontjit-status', LoadingState.ERROR)
 			return
 		}
-
-		const name = sanitizeFontName(unsanitizedName)
 
 		let descriptors = {}
 		const descriptorsData = element.getAttribute('data-fontjit-descriptors')
