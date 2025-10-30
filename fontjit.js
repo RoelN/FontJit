@@ -1,5 +1,5 @@
 /**
- * FontJit v1.0.0
+ * FontJit v1.0.1
  * by Roel Nieskens - pixelambacht.nl
  */
 
@@ -7,7 +7,7 @@
  * Loading states
  */
 export const LoadingState = {
-	IDLE: 'idle',
+	UNLOADED: 'unloaded',
 	LOADING: 'loading',
 	LOADED: 'loaded',
 	ERROR: 'error',
@@ -144,7 +144,7 @@ export const fontJit = (selector, options = {}) => {
 	}, observerOptions)
 
 	elements.forEach((fontElement) => {
-		fontElement.setAttribute('data-fontjit-status', LoadingState.IDLE)
+		fontElement.setAttribute('data-fontjit-status', LoadingState.UNLOADED)
 		observer.observe(fontElement)
 	})
 }

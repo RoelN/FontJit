@@ -42,7 +42,7 @@ It's tiny, just 630 bytes minified and Brotli zipped!
 While loading, the `data-fontjit-status` attribute will be added and updated. This lets you keep track of the four loading states:
 
 ```
-idle = not yet started
+unloaded = not yet started
 loading = font is loading
 loaded = font successfully loaded
 error = loading failed
