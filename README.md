@@ -1,10 +1,10 @@
 # FontJit
 
-A little helper for just-in-time font loading! Loads fonts can be loaded when they _enter_ the viewport, when they _almost enter_ the viewport, or immediately.
+A little helper for just-in-time font loading! Load fonts when they _enter_ the viewport, when they _almost enter_ the viewport, or immediately.
 
 ## Quick Start
 
-1. Set up lazy loading for elements with the class `boing`. By default fonts will be loaded when they're _in_ the viewport on pageload, or when they _enter_ the viewport when the user scrolls.
+1. Set up FontJit for the elements you'll apply the font to. By default fonts will be loaded when they're _in_ the viewport on pageload, or when they _enter_ the viewport when the user scrolls.
 
 ```html
 <script type="module">
