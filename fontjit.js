@@ -68,23 +68,23 @@ const getElements = (selector) => {
 export const loadFont = (selector) => {
 	const elements = getElements(selector)
 	elements.forEach((element) => {
-		const status = element.getAttribute('data-loadfont-status')
+		const status = element.getAttribute('data-fontjit-status')
 		if (status === LoadingState.LOADING || status === LoadingState.LOADED) {
 			return
 		}
 
-		const url = element.getAttribute('data-loadfont-url')
-		const unsanitizedName = element.getAttribute('data-loadfont-name')
+		const url = element.getAttribute('data-fontjit-url')
+		const unsanitizedName = element.getAttribute('data-fontjit-name')
 
 		if (!url || !unsanitizedName) {
-			element.setAttribute('data-loadfont-status', LoadingState.ERROR)
+			element.setAttribute('data-fontjit-status', LoadingState.ERROR)
 			return
 		}
 
 		const name = sanitizeFontName(unsanitizedName)
 
 		let descriptors = {}
-		const descriptorsData = element.getAttribute('data-loadfont-descriptors')
+		const descriptorsData = element.getAttribute('data-fontjit-descriptors')
 		if (descriptorsData) {
 			try {
 				descriptors = JSON.parse(descriptorsData)
@@ -112,13 +112,13 @@ export const loadFont = (selector) => {
 			fontCache.set(cacheKey, promise)
 		}
 
-		element.setAttribute('data-loadfont-status', LoadingState.LOADING)
+		element.setAttribute('data-fontjit-status', LoadingState.LOADING)
 		promise
 			.then(() => {
-				element.setAttribute('data-loadfont-status', LoadingState.LOADED)
+				element.setAttribute('data-fontjit-status', LoadingState.LOADED)
 			})
 			.catch(() => {
-				element.setAttribute('data-loadfont-status', LoadingState.ERROR)
+				element.setAttribute('data-fontjit-status', LoadingState.ERROR)
 			})
 	})
 }
@@ -143,7 +143,7 @@ export const lazyLoadFont = (selector, options = {}) => {
 	}, options)
 
 	elements.forEach((fontElement) => {
-		fontElement.setAttribute('data-loadfont-status', LoadingState.IDLE)
+		fontElement.setAttribute('data-fontjit-status', LoadingState.IDLE)
 		observer.observe(fontElement)
 	})
 }

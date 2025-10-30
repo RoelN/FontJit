@@ -1,6 +1,6 @@
-# LoadFont
+# FontJit
 
-Boring name, exciting functionality! Because it loads a font when it enters the viewport.
+A little helper for just-in-time font loading! Loads fonts when they _enter_ the viewport, or when they're _about to enter_ the viewport. You're the boss!
 
 Simple example:
 
@@ -8,7 +8,7 @@ Simple example:
 
 ```html
 <script type="module">
-	import { lazyLoadFont } from './loadfont.js'
+	import { lazyLoadFont } from './fontjit.js'
 	lazyLoadFont('.boing') // Or a DOM element, or nodelist
 </script>
 ```
@@ -16,7 +16,7 @@ Simple example:
 2. Add data attributes with the URL and name:
 
 ```html
-<div class="boing" data-loadfont-url="boing.woff2" data-loadfont-name="Boing">
+<div class="boing" data-fontjit-url="boing.woff2" data-fontjit-name="Boing">
 	Hello World
 </div>
 ```
@@ -31,7 +31,7 @@ Simple example:
 </style>
 ```
 
-While loading, the `data-loadfont-status` attribute will be added and updated. This lets you keep track of the four loading states:
+While loading, the `data-fontjit-status` attribute will be added and updated. This lets you keep track of the four loading states:
 
 ```
 idle = not yet started
@@ -49,7 +49,7 @@ You can use these in CSS, for example to hide the text until the font has been l
 }
 
 /* Font has loaded, show the element */
-.boing[data-loadfont-status='loaded'] {
+.boing[data-fontjit-status='loaded'] {
 	opacity: 1;
 }
 ```
@@ -57,10 +57,10 @@ You can use these in CSS, for example to hide the text until the font has been l
 You can use the `LoadingState` constants in JavaScript:
 
 ```javascript
-import { lazyLoadFont, LoadingState } from './loadfont.js'
+import { lazyLoadFont, LoadingState } from './fontjit.js'
 
 const element = document.querySelector('.boing')
-if (element.getAttribute('data-loadfont-status') === LoadingState.LOADED) {
+if (element.getAttribute('data-fontjit-status') === LoadingState.LOADED) {
 	// Do something with the loaded font!
 }
 ```
@@ -85,14 +85,14 @@ You can pass either a string, a DOM element, or a Nodelist to `loadFont` and `la
 
 ## Font Descriptors
 
-You can pass optional [FontFace descriptors](https://developer.mozilla.org/en-US/docs/Web/API/FontFace/FontFace#descriptors) using the `data-loadfont-descriptors` attribute with a JSON string:
+You can pass optional [FontFace descriptors](https://developer.mozilla.org/en-US/docs/Web/API/FontFace/FontFace#descriptors) using the `data-fontjit-descriptors` attribute with a JSON string:
 
 ```html
 <div
 	class="boing"
-	data-loadfont-url="boing.woff2"
-	data-loadfont-name="Boing"
-	data-loadfont-descriptors='{"weight":"100 900","stretch":"75% 125%"}'
+	data-fontjit-url="boing.woff2"
+	data-fontjit-name="Boing"
+	data-fontjit-descriptors='{"weight":"100 900","stretch":"75% 125%"}'
 >
 	Hello World
 </div>
