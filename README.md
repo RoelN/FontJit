@@ -8,12 +8,12 @@ It's tiny, just 634 bytes minified and Brotli zipped!
 
 ### 1. Set up FontJit in JavaScript
 
-Set up FontJit for the elements you'll apply the font to. You can pass either a CSS selector string like in the example, a DOM element, or a Nodelist. Or you can just omit a selector altogether (`fontJit()`) and FontJit will automatically find _all_ FontJit elements on the page. By default fonts will be loaded when they're _in_ the viewport on pageload, or when they _enter_ the viewport when the user scrolls.
+Load FontJit, and call it. By default it'll automatically find all FontJit elements on the page, but you can also pass a CSS selector string, a DOM element, or a Nodelist to target specific elements. By default fonts will be loaded when they're _in_ the viewport on pageload, or when they _enter_ the viewport when the user scrolls.
 
 ```html
 <script type="module">
 	import { fontJit } from './fontjit.js'
-	fontJit('.boing')
+	fontJit() // Or target specific elements: fontJit('.boing')
 </script>
 ```
 
@@ -22,9 +22,7 @@ Set up FontJit for the elements you'll apply the font to. You can pass either a 
 Add data attributes with the font URL and font name to the element. Make sure you sanitize the font name to avoid icky browser bugs. Remove spaces, quotes, plus signs etc. Read more about this issue [in this Mastodon post](https://typo.social/@pixelambacht/110615435477645570).
 
 ```html
-<div class="boing" data-fontjit-url="boing.woff2" data-fontjit-name="Boing">
-	Hello World
-</div>
+<div data-fontjit-url="boing.woff2" data-fontjit-name="Boing">Hello World</div>
 ```
 
 ### 3. Apply the font via CSS
@@ -33,7 +31,7 @@ The font will now be loaded when this `div` enters the viewport! Remember, `font
 
 ```html
 <style>
-	.boing {
+	div {
 		font-family: Boing;
 	}
 </style>
@@ -86,13 +84,14 @@ if (element.getAttribute('data-fontjit-status') === LoadingState.LOADED) {
 By default, `fontJit` lazy-loads fonts when they enter the viewport. You can also have them load when they _almost enter_ the viewport by passing an [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver) config, or load them immediately:
 
 ```javascript
-// Load font when it's in the viewport
+// Load font for elements with class "boing" when they're in the viewport
 fontJit('.boing')
 
-// Load font when it's almost in the viewport
+// Load font for elements with class "boing" when they're almost in the viewport
 fontJit('.boing', { rootMargin: '400px 0px' })
 
-// Load font immediately, regardless of whether it's (almost) in the viewport
+// Load font for elements with class "boing" immediately, regardless
+// of whether they are (almost) in the viewport
 fontJit('.boing', { immediate: true })
 ```
 
@@ -117,11 +116,11 @@ You can load fonts in the initial viewport immediately, and preload nearby fonts
 
 ```javascript
 // Load fonts in viewport...
-fontJit('[data-fontjit-url]')
+fontJit('.boing')
 
 // ...and after page loads, preload fonts just below the fold
 window.addEventListener('load', () => {
-	fontJit('[data-fontjit-url]', { rootMargin: '400px 0px' })
+	fontJit('.boing', { rootMargin: '400px 0px' })
 })
 ```
 
