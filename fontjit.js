@@ -1,5 +1,5 @@
 /**
- * FontJit v1.0.1
+ * FontJit v1.0.2
  * by Roel Nieskens - pixelambacht.nl
  */
 
@@ -122,7 +122,7 @@ const loadFont = (selector) => {
  * @param {number} [options.threshold] - IntersectionObserver threshold (lazy mode only)
  * @returns {void}
  */
-export const fontJit = (selector, options = {}) => {
+export const fontJit = (selector = '[data-fontjit-url]', options = {}) => {
 	const { immediate = false, ...observerOptions } = options
 
 	// Immediate loading

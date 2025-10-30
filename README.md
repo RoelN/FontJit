@@ -2,7 +2,7 @@
 
 A little helper for just-in-time font loading! Load fonts when they _enter the viewport_, when they _almost enter the viewport_, or _immediately_.
 
-It's tiny, just 627 bytes minified and Brotli zipped!
+It's tiny, just 634 bytes minified and Brotli zipped!
 
 ## Quick Start
 
@@ -15,7 +15,7 @@ It's tiny, just 627 bytes minified and Brotli zipped!
 </script>
 ```
 
-ℹ️ You can pass either a CSS selector string, a DOM element, or a Nodelist to `fontJit`. Protip: you can use a FontJit `data` attribute as a selector to select all FontJit-fitted elements on the page: `fontJit('[data-fontjit-url]')`.
+ℹ️ You can pass either a CSS selector string, a DOM element, or a Nodelist to `fontJit`. Or you can just omit a selector altogether (`fontJit()`) and FontJit will automatically find _all_ FontJit elements on the page!
 
 2. Add data attributes with the font URL and font name to the element.
 
