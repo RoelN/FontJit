@@ -15,7 +15,7 @@ It's tiny, just 634 bytes minified and Brotli zipped!
 </script>
 ```
 
-ℹ️ You can pass either a CSS selector string, a DOM element, or a Nodelist to `fontJit`. Or you can just omit a selector altogether (`fontJit()`) and FontJit will automatically find _all_ FontJit elements on the page!
+You can pass either a CSS selector string like in the example, a DOM element, or a Nodelist. Or you can just omit a selector altogether (`fontJit()`) and FontJit will automatically find _all_ FontJit elements on the page!
 
 2. Add data attributes with the font URL and font name to the element.
 
@@ -25,7 +25,7 @@ It's tiny, just 634 bytes minified and Brotli zipped!
 </div>
 ```
 
-ℹ️ Make sure you sanitize the font name to avoid icky browser bugs. Remove spaces, quotes, plus signs etc. Read more about this issue [in this Mastodon post](https://typo.social/@pixelambacht/110615435477645570).
+Make sure you sanitize the font name to avoid icky browser bugs. Remove spaces, quotes, plus signs etc. Read more about this issue [in this Mastodon post](https://typo.social/@pixelambacht/110615435477645570).
 
 3. The font will now be loaded when this `div` enters the viewport! Remember, `fontJit` only takes care of _loading_ the font. You'll have to actually _apply_ it yourself.
 
