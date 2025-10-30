@@ -111,6 +111,20 @@ You can pass optional [FontFace descriptors](https://developer.mozilla.org/en-US
 </div>
 ```
 
+## Performance Tips
+
+You can load fonts in the initial viewport immediately, and preload nearby fonts after page has fully loaded:
+
+```javascript
+// Load fonts in viewport...
+fontJit('[data-fontjit-url]')
+
+// ...and after page loads, preload fonts just below the fold
+window.addEventListener('load', () => {
+	fontJit('[data-fontjit-url]', { rootMargin: '400px 0px' })
+})
+```
+
 ## Credits
 
 Computered by [Roel Nieskens](https://pixelambacht.nl)!
