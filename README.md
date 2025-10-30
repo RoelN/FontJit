@@ -126,6 +126,10 @@ window.addEventListener('load', () => {
 })
 ```
 
+## Gotchas
+
+If you update an element after its font has been loaded, for example by updating its `data-fontjit-url`, you'll need to manually reset the `data-fontjit-status` attribute before calling `fontJit()` again. This might be automated [soon](https://github.com/RoelN/FontJit/issues/4).
+
 ## Credits
 
 Computered by [Roel Nieskens](https://pixelambacht.nl)!
