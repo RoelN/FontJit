@@ -25,7 +25,7 @@ A little helper for just-in-time font loading! Load fonts when they _enter the v
 
 ℹ️ Make sure you sanitize the font name to avoid icky browser bugs. Remove spaces, quotes, plus signs etc. Read more about this issue [in this Mastodon post](https://typo.social/@pixelambacht/110615435477645570).
 
-3. The font will now be loaded when this `div` enters the viewport, but `fontJit` only takes care of _loading_ the font. You'll have to actually _apply_ it yourself.
+3. The font will now be loaded when this `div` enters the viewport! Remember, `fontJit` only takes care of _loading_ the font. You'll have to actually _apply_ it yourself.
 
 ```html
 <style>
