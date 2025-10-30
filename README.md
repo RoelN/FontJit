@@ -15,7 +15,7 @@ It's tiny, just 627 bytes minified and Brotli zipped!
 </script>
 ```
 
-ℹ️ You can pass either a CSS selector string, a DOM element, or a Nodelist to `fontJit`.
+ℹ️ You can pass either a CSS selector string, a DOM element, or a Nodelist to `fontJit`. Protip: you can use a FontJit `data` attribute as a selector to select all FontJit-fitted elements on the page: `fontJit('[data-fontjit-url]')`.
 
 2. Add data attributes with the font URL and font name to the element.
 
