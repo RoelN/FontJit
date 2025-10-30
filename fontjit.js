@@ -1,4 +1,8 @@
 /**
+ * FontJit v1.0.0
+ * by Roel Nieskens - pixelambacht.nl
+
+/**
  * Loading states
  */
 export const LoadingState = {
