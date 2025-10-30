@@ -2,6 +2,8 @@
 
 A little helper for just-in-time font loading! Load fonts when they _enter the viewport_, when they _almost enter the viewport_, or _immediately_.
 
+It's tiny, just 630 bytes minified and Brotli zipped!
+
 ## Quick Start
 
 1. Set up FontJit for the elements you'll apply the font to. By default fonts will be loaded when they're _in_ the viewport on pageload, or when they _enter_ the viewport when the user scrolls.
