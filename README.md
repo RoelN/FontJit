@@ -29,7 +29,7 @@ Add data attributes with the font URL and font name to the element. Make sure yo
 
 ### 3. Apply the font via CSS
 
-The font will now be loaded when this `div` enters the viewport! Remember, `fontJit` only takes care of _loading_ the font. You'll have to actually _apply_ it yourself.
+The font will now be loaded when this element enters the viewport. Remember, `fontJit` only takes care of _loading_ the font—you'll have to actually _apply_ it yourself.
 
 ```html
 <style>
@@ -37,6 +37,22 @@ The font will now be loaded when this `div` enters the viewport! Remember, `font
 		font-family: Boing;
 	}
 </style>
+```
+
+## Loading Options
+
+By default, `fontJit` lazy-loads fonts when they enter the viewport. You can also have them load when they _almost enter_ the viewport by passing an [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver) config, or load them immediately:
+
+```javascript
+// Load font for elements with class "boing" when they're in the viewport
+fontJit('.boing')
+
+// Load font for elements with class "boing" when they're almost in the viewport
+fontJit('.boing', { rootMargin: '400px 0px' })
+
+// Load font for elements with class "boing" immediately, regardless
+// of whether they are (almost) in the viewport
+fontJit('.boing', { immediate: true })
 ```
 
 ## Loading States
@@ -79,22 +95,6 @@ const element = document.querySelector('.boing')
 if (element.getAttribute('data-fontjit-status') === LoadingState.LOADED) {
 	// Do something with the loaded font!
 }
-```
-
-## Loading Options
-
-By default, `fontJit` lazy-loads fonts when they enter the viewport. You can also have them load when they _almost enter_ the viewport by passing an [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver) config, or load them immediately:
-
-```javascript
-// Load font for elements with class "boing" when they're in the viewport
-fontJit('.boing')
-
-// Load font for elements with class "boing" when they're almost in the viewport
-fontJit('.boing', { rootMargin: '400px 0px' })
-
-// Load font for elements with class "boing" immediately, regardless
-// of whether they are (almost) in the viewport
-fontJit('.boing', { immediate: true })
 ```
 
 ## Font Descriptors
