@@ -13,7 +13,7 @@ A little helper for just-in-time font loading! Loads fonts can be loaded when th
 </script>
 ```
 
-You can pass either a CSS selector string, a DOM element, or a Nodelist to `fontJit`.
+ℹ️ You can pass either a CSS selector string, a DOM element, or a Nodelist to `fontJit`.
 
 2. Add data attributes with the font URL and font name to the element.
 
@@ -22,6 +22,8 @@ You can pass either a CSS selector string, a DOM element, or a Nodelist to `font
 	Hello World
 </div>
 ```
+
+ℹ️ Make sure you sanitize the font name to avoid icky browser bugs. Remove spaces, quotes, plus signs etc. Read more about this issue [in this Mastodon post](https://typo.social/@pixelambacht/110615435477645570).
 
 3. The font will now be loaded when this `div` enters the viewport, but `fontJit` only takes care of _loading_ the font. You'll have to actually _apply_ it yourself.
 
@@ -104,3 +106,7 @@ You can pass optional [FontFace descriptors](https://developer.mozilla.org/en-US
 	Hello World
 </div>
 ```
+
+## Credits
+
+Computered by [Roel Nieskens](https://pixelambacht.nl)!
