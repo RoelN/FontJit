@@ -6,7 +6,7 @@ It's tiny, just 634 bytes minified and Brotli zipped!
 
 ## Quick Start
 
-### Set up FontJit in JavaScript
+### 1. Set up FontJit in JavaScript
 
 Set up FontJit for the elements you'll apply the font to. You can pass either a CSS selector string like in the example, a DOM element, or a Nodelist. Or you can just omit a selector altogether (`fontJit()`) and FontJit will automatically find _all_ FontJit elements on the page. By default fonts will be loaded when they're _in_ the viewport on pageload, or when they _enter_ the viewport when the user scrolls.
 
@@ -17,7 +17,7 @@ Set up FontJit for the elements you'll apply the font to. You can pass either a 
 </script>
 ```
 
-### Prepare your HTML elements
+### 2. Prepare your HTML elements
 
 Add data attributes with the font URL and font name to the element. Make sure you sanitize the font name to avoid icky browser bugs. Remove spaces, quotes, plus signs etc. Read more about this issue [in this Mastodon post](https://typo.social/@pixelambacht/110615435477645570).
 
@@ -27,7 +27,7 @@ Add data attributes with the font URL and font name to the element. Make sure yo
 </div>
 ```
 
-### Apply the font via CSS
+### 3. Apply the font via CSS
 
 The font will now be loaded when this `div` enters the viewport! Remember, `fontJit` only takes care of _loading_ the font. You'll have to actually _apply_ it yourself.
 
