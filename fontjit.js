@@ -19,6 +19,11 @@ export const LoadingState = {
 const fontCache = new Map()
 
 /**
+ * Map to store promise resolvers for each element
+ */
+const elementResolvers = new WeakMap()
+
+/**
  * Creates a unique cache key
  *
  * @param {string} name - Font name
@@ -58,7 +63,13 @@ const loadFont = (selector) => {
 	const elements = getElements(selector)
 	elements.forEach((element) => {
 		const status = element.getAttribute('data-fontjit-status')
-		if (status === LoadingState.LOADING || status === LoadingState.LOADED) {
+		if (status === LoadingState.LOADED) {
+			// Already loaded, resolve immediately
+			elementResolvers.get(element)?.resolve()
+			return
+		}
+		if (status === LoadingState.LOADING) {
+			// Already loading, promise will resolve when done
 			return
 		}
 
@@ -103,9 +114,11 @@ const loadFont = (selector) => {
 		promise
 			.then(() => {
 				element.setAttribute('data-fontjit-status', LoadingState.LOADED)
+				elementResolvers.get(element)?.resolve()
 			})
-			.catch(() => {
+			.catch((error) => {
 				element.setAttribute('data-fontjit-status', LoadingState.ERROR)
+				elementResolvers.get(element)?.reject(error)
 			})
 	})
 }
@@ -120,20 +133,39 @@ const loadFont = (selector) => {
  * @param {boolean} [options.immediate=false] - Load fonts immediately instead of lazily
  * @param {string} [options.rootMargin] - IntersectionObserver rootMargin (lazy mode only)
  * @param {number} [options.threshold] - IntersectionObserver threshold (lazy mode only)
- * @returns {void}
+ * @returns {Promise<void[]>} Promise that resolves when all fonts have loaded
  */
 export const fontJit = (selector = '[data-fontjit-url]', options = {}) => {
 	const { immediate = false, ...observerOptions } = options
+	const elements = getElements(selector)
+	const promises = []
+
+	elements.forEach((element) => {
+		const url = element.getAttribute('data-fontjit-url')
+		const name = element.getAttribute('data-fontjit-name')
+
+		// Create promise for this element
+		const elementPromise = new Promise((resolve, reject) => {
+			if (!url || !name) {
+				element.setAttribute('data-fontjit-status', LoadingState.ERROR)
+				reject(new Error('Missing data-fontjit-url or data-fontjit-name'))
+				return
+			}
+
+			// Save the resolve/reject
+			elementResolvers.set(element, { resolve, reject })
+		})
+
+		promises.push(elementPromise)
+	})
 
 	// Immediate loading
 	if (immediate) {
-		loadFont(selector)
-		return
+		loadFont(elements)
+		return Promise.all(promises)
 	}
 
 	// Lazy loading (default)
-	const elements = getElements(selector)
-
 	const observer = new IntersectionObserver((entries) => {
 		entries.forEach((entry) => {
 			if (entry.isIntersecting) {
@@ -147,4 +179,6 @@ export const fontJit = (selector = '[data-fontjit-url]', options = {}) => {
 		fontElement.setAttribute('data-fontjit-status', LoadingState.UNLOADED)
 		observer.observe(fontElement)
 	})
+
+	return Promise.all(promises)
 }
