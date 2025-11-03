@@ -1,5 +1,5 @@
 /**
- * FontJit v1.0.2
+ * FontJit v1.1.0
  * by Roel Nieskens - pixelambacht.nl
  */
 
@@ -32,7 +32,7 @@ const elementResolvers = new WeakMap()
  * @returns {string} Normalized cache key
  */
 const createCacheKey = (name, url, descriptors) => {
-	// Sort the descriptors so they're always tha same order
+	// Sort the descriptors so they're always the same order
 	const sortedEntries = Object.entries(descriptors).sort(([a], [b]) =>
 		a.localeCompare(b)
 	)
@@ -148,7 +148,7 @@ export const fontJit = (selector = '[data-fontjit-url]', options = {}) => {
 		const elementPromise = new Promise((resolve, reject) => {
 			if (!url || !name) {
 				element.setAttribute('data-fontjit-status', LoadingState.ERROR)
-				reject(new Error('Missing data-fontjit-url or data-fontjit-name'))
+				reject()
 				return
 			}
 
