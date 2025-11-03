@@ -89,16 +89,39 @@ You can use these in CSS, for example to hide the text until the font has been l
 }
 ```
 
-You can also use the `LoadingState` constants in JavaScript:
+## Using JavaScript
+
+You can also interact with FontJit in JavaScript by using promises:
 
 ```javascript
 import { fontJit, LoadingState } from './fontjit.js'
 
+// Using async/await
+await fontJit('.boing')
+console.log('All fonts loaded!')
+
+// Using .then()
+fontJit('.boing').then(() => {
+	console.log('All fonts loaded!')
+}).catch((error) => {
+	console.error('Some fonts failed to load:', error)
+})
+
+// Load multiple fonts and wait for all
+await Promise.all([
+	fontJit('.boing'),
+	fontJit('.prose'),
+	fontJit('.code-example')
+])
+
+// Alternartively, check loading state using constants
 const element = document.querySelector('.boing')
 if (element.getAttribute('data-fontjit-status') === LoadingState.LOADED) {
 	// Do something with the loaded font!
 }
 ```
+
+The promise works with both immediate and lazy loading modes. For lazy loading, the promise resolves as fonts enter the viewport and complete loading.
 
 ## Font Descriptors
 
