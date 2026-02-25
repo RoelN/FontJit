@@ -138,6 +138,8 @@ You can pass optional [FontFace descriptors](https://developer.mozilla.org/en-US
 </div>
 ```
 
+(Note the single quotes used for `data-fontjit-descriptors`, as the JSON string must use double quotes!)
+
 ## Performance Tips
 
 You can load fonts in the initial viewport immediately, and preload nearby fonts after page has fully loaded:
