@@ -176,6 +176,14 @@ export const fontJit = (selector = '[data-fontjit-url]', options = {}) => {
 	}, observerOptions)
 
 	elements.forEach((fontElement) => {
+		const status = fontElement.getAttribute('data-fontjit-status')
+		if (status === LoadingState.LOADED) {
+			elementResolvers.get(fontElement)?.resolve()
+			return
+		}
+		if (status === LoadingState.LOADING) {
+			return
+		}
 		fontElement.setAttribute('data-fontjit-status', LoadingState.UNLOADED)
 		observer.observe(fontElement)
 	})
