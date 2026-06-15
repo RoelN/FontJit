@@ -1,5 +1,5 @@
 /**
- * FontJit v1.1.0
+ * FontJit v1.1.1
  * by Roel Nieskens - pixelambacht.nl
  */
 
